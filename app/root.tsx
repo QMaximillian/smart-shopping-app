@@ -6,28 +6,23 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useCatch
-} from "remix";
-import type { LinksFunction } from "remix";
+  useCatch,
+} from 'remix'
+import type {LinksFunction} from 'remix'
 
-import globalStylesUrl from "~/styles/global.css";
-import darkStylesUrl from "~/styles/dark.css";
-import tailwindStyles from "./tailwind.css"
+import baseReset from '~/styles/base-reset.css'
+import tailwindStyles from './tailwind.css'
 
 // https://remix.run/api/app#links
 export let links: LinksFunction = () => {
   return [
-    // { rel: "stylesheet", href: globalStylesUrl },
-    // {
-    //   rel: "stylesheet",
-    //   href: darkStylesUrl,
-    //   media: "(prefers-color-scheme: dark)"
-    // },
+    {rel: 'stylesheet', href: baseReset},
     {
-      rel: "stylesheet", href: tailwindStyles
-    }
-  ];
-};
+      rel: 'stylesheet',
+      href: tailwindStyles,
+    },
+  ]
+}
 
 // https://remix.run/api/conventions#default-export
 // https://remix.run/api/conventions#route-filenames
@@ -38,12 +33,12 @@ export default function App() {
         <Outlet />
       </Layout>
     </Document>
-  );
+  )
 }
 
 // https://remix.run/docs/en/v1/api/conventions#errorboundary
-export function ErrorBoundary({ error }: { error: Error }) {
-  console.error(error);
+export function ErrorBoundary({error}: {error: Error}) {
+  console.error(error)
   return (
     <Document title="Error!">
       <Layout>
@@ -58,14 +53,14 @@ export function ErrorBoundary({ error }: { error: Error }) {
         </div>
       </Layout>
     </Document>
-  );
+  )
 }
 
 // https://remix.run/docs/en/v1/api/conventions#catchboundary
 export function CatchBoundary() {
-  let caught = useCatch();
+  let caught = useCatch()
 
-  let message;
+  let message
   switch (caught.status) {
     case 401:
       message = (
@@ -73,16 +68,16 @@ export function CatchBoundary() {
           Oops! Looks like you tried to visit a page that you do not have access
           to.
         </p>
-      );
-      break;
+      )
+      break
     case 404:
       message = (
         <p>Oops! Looks like you tried to visit a page that does not exist.</p>
-      );
-      break;
+      )
+      break
 
     default:
-      throw new Error(caught.data || caught.statusText);
+      throw new Error(caught.data || caught.statusText)
   }
 
   return (
@@ -94,18 +89,18 @@ export function CatchBoundary() {
         {message}
       </Layout>
     </Document>
-  );
+  )
 }
 
 function Document({
   children,
-  title
+  title,
 }: {
-  children: React.ReactNode;
-  title?: string;
+  children: React.ReactNode
+  title?: string
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -113,33 +108,45 @@ function Document({
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="min-h-screen flex flex-col w-full">
         {children}
         <ScrollRestoration />
         <Scripts />
-        {process.env.NODE_ENV === "development" && <LiveReload />}
+        {process.env.NODE_ENV === 'development' && <LiveReload />}
       </body>
     </html>
-  );
+  )
 }
 
-function Layout({ children }: { children: React.ReactNode }) {
+function Layout({children}: {children: React.ReactNode}) {
   return (
-    <div className="remix-app">
-      <header className="remix-app__header">
-          
-          <nav aria-label="Main navigation" className="remix-app__header-nav">
-            CartVoyant
-          </nav>
+    <div className="flex flex-col min-h-screen pb-2 text-gray-700">
+      <header className="h-14 bg-gray-50">
+        <nav
+          aria-label="Main navigation"
+          className="h-full w-full flex items-stretch shadow-lg border-b border-gray-200"
+        >
+          <div className="mx-3 lg:mr-8 lg:ml-4 flex justify-between w-full items-center h-full">
+            <Link to="/" className="text-md lg:text-xl">
+              Smart Shopping App
+            </Link>
+            <div>
+              <div className="space-x-6">
+                <Link to="/sign-up" className="text-sm lg:text-md">
+                  Sign Up
+                </Link>
+                <Link to="/login" className="text-sm lg:text-md">
+                  Login
+                </Link>
+              </div>
+            </div>
+          </div>
+        </nav>
       </header>
-      <div className="remix-app__main">
-        <div className="container remix-app__main-content">{children}</div>
+      <div className="grow">
+        <div className="w-full h-full">{children}</div>
       </div>
-      <footer className="remix-app__footer">
-      </footer>
+      <footer className="remix-app__footer"></footer>
     </div>
-  );
+  )
 }
-
-
-
