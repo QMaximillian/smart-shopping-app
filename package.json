@@ -12,15 +12,10 @@
     "start": "remix-serve build",
     "prepare": "husky install"
   },
-  // "husky": {
-  //   "hooks": {
-  //     "pre-commit": "lint-staged"
-  //   }
-  // },
   "lint-staged": {
     "**/app/**/*.{js,jsx,ts,tsx}": [
-      "prettier --write",
-      "eslint 'app/**/*.{js,jsx,ts,tsx}' --fix-dry-run"
+      "npx prettier --congfig prettier.config.js --write",
+      "eslint -c .eslintrc.js 'app/**/*.{js,jsx,ts,tsx}' --fix-dry-run"
     ]
   },
   "dependencies": {
