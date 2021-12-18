@@ -62,7 +62,6 @@ export default function Index() {
     <div>
       <main></main>
       <aside></aside>
-      <div className="test"></div>
     </div>
   )
 }
