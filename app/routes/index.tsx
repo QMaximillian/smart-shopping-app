@@ -59,12 +59,10 @@ export default function Index() {
   let data = useLoaderData<IndexData>();
 
   return (
-    <div className="remix__page">
+    <div>
       <main>
-        
       </main>
       <aside>
-        
       </aside>
     </div>
   );
